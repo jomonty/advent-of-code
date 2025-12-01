@@ -1,24 +1,16 @@
 ﻿using AoC2025DotNet.Helpers;
 
-namespace AoC2025DotNet.Solutions
+namespace AoC2025DotNet.SolutionFinding.Solutions
 {
-    internal class Day01
+    internal class Day01(IConsoleWriter consoleWriter) : SolutionBase(consoleWriter)
     {
-        public static void Solution()
+        public override int Day => 1;
+
+        protected override string PartOne()
         {
-            RunSolutionOne();
-            RunSolutionTwo();
-        }
+            Dial dial = new(Writer);
 
-        private static void RunSolutionOne()
-        {
-            Dial dial = new();
-
-            using Stream fs = InputLoader.LoadInput(1);
-            using StreamReader reader = new(fs);
-
-            string? line;
-            while ((line = reader.ReadLine()) is not null)
+            foreach (string line in LoadInput())
             {
                 char direction = line[0];
                 int distance = int.Parse(line[1..]);
@@ -26,18 +18,14 @@ namespace AoC2025DotNet.Solutions
                 dial.Rotate(direction, distance);
             }
 
-            Console.WriteLine($"Solution one: {dial.TimesAt0}");
+            return dial.TimesAt0.ToString();
         }
 
-        private static void RunSolutionTwo()
+        protected override string PartTwo()
         {
-            Dial dial = new();
+            Dial dial = new(Writer);
 
-            using Stream fs = InputLoader.LoadInput(1);
-            using StreamReader reader = new(fs);
-
-            string? line;
-            while ((line = reader.ReadLine()) is not null)
+            foreach (string line in LoadInput())
             {
                 char direction = line[0];
                 int distance = int.Parse(line[1..]);
@@ -45,11 +33,13 @@ namespace AoC2025DotNet.Solutions
                 dial.RotateCountingAllZeros(direction, distance);
             }
 
-            Console.WriteLine($"Solution two: {dial.TimesAt0}");
+            return dial.TimesAt0.ToString();
         }
 
-        private class Dial
+        private class Dial(IConsoleWriter writer)
         {
+            private readonly IConsoleWriter _writer = writer;
+
             public int Location { get; private set; } = 50;
             public int TimesAt0 { get; private set; } = 0;
 
@@ -73,11 +63,11 @@ namespace AoC2025DotNet.Solutions
                         Location = Location - 100;
                     }
                 }
-                
-                if (Location == 0) 
+
+                if (Location == 0)
                     TimesAt0++;
-                
-                // Console.WriteLine($"The dial is rotated {direction}{distance} to point at {Location}.");
+
+                _writer.WriteDebug($"The dial is rotated {direction}{distance} to point at {Location}.");
             }
 
             public void RotateCountingAllZeros(char direction, int distance)
@@ -115,12 +105,11 @@ namespace AoC2025DotNet.Solutions
                 }
 
                 TimesAt0 += timesPast0;
-                if (Location == 0) 
+                if (Location == 0)
                     TimesAt0++;
 
-                // Console.WriteLine($"The dial is rotated {direction}{distance} to point at {Location}; during this rotation, it points at zero {timesPast0} times.");
+                _writer.WriteDebug($"The dial is rotated {direction}{distance} to point at {Location}; during this rotation, it points at zero {timesPast0} times.");
             }
-
         }
     }
 }
