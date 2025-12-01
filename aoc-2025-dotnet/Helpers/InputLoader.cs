@@ -1,10 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 
 namespace AoC2025DotNet.Helpers
 {
@@ -12,8 +6,8 @@ namespace AoC2025DotNet.Helpers
     {
         public static Stream LoadInput(int day, bool getSample = false)
         {
-            if (!TryGetRunningLocation(out string? root) || root == null)
-                throw new Exception();
+            if (!TryGetRunningLocation(out string? root) || root is null)
+                throw new InvalidDataException("Input data not found.");
 
             string location = Path.Combine(root, "Inputs", $"Day{day:D2}", $"day_{day:D2}{(getSample ? "_sample" : "")}.txt");
 

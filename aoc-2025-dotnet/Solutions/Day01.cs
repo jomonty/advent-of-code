@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AoC2025DotNet.Helpers;
+﻿using AoC2025DotNet.Helpers;
 
 namespace AoC2025DotNet.Solutions
 {
@@ -9,9 +6,15 @@ namespace AoC2025DotNet.Solutions
     {
         public static void Solution()
         {
+            RunSolutionOne();
+            RunSolutionTwo();
+        }
+
+        private static void RunSolutionOne()
+        {
             Dial dial = new();
 
-            using Stream fs = InputLoader.LoadInput(1, true);
+            using Stream fs = InputLoader.LoadInput(1);
             using StreamReader reader = new(fs);
 
             string? line;
@@ -23,12 +26,31 @@ namespace AoC2025DotNet.Solutions
                 dial.Rotate(direction, distance);
             }
 
-            Console.WriteLine($"Times at 0: {dial.TimesAt0}");
+            Console.WriteLine($"Solution one: {dial.TimesAt0}");
+        }
+
+        private static void RunSolutionTwo()
+        {
+            Dial dial = new();
+
+            using Stream fs = InputLoader.LoadInput(1);
+            using StreamReader reader = new(fs);
+
+            string? line;
+            while ((line = reader.ReadLine()) is not null)
+            {
+                char direction = line[0];
+                int distance = int.Parse(line[1..]);
+
+                dial.RotateCountingAllZeros(direction, distance);
+            }
+
+            Console.WriteLine($"Solution two: {dial.TimesAt0}");
         }
 
         private class Dial
         {
-            public int CurrentPosition { get; private set; } = 50;
+            public int Location { get; private set; } = 50;
             public int TimesAt0 { get; private set; } = 0;
 
             public void Rotate(char direction, int distance)
@@ -37,24 +59,66 @@ namespace AoC2025DotNet.Solutions
 
                 if (direction == 'L')
                 {
-                    CurrentPosition -= singleRotationDist;
-                    if (CurrentPosition < 0)
+                    Location -= singleRotationDist;
+                    if (Location < 0)
                     {
-                        CurrentPosition = 99 + (CurrentPosition + 1);
+                        Location = Location + 100;
                     }
                 }
                 else if (direction == 'R')
                 {
-                    CurrentPosition += singleRotationDist;
-                    if (CurrentPosition > 99)
+                    Location += singleRotationDist;
+                    if (Location > 99)
                     {
-                        CurrentPosition = CurrentPosition - 100;
+                        Location = Location - 100;
+                    }
+                }
+                
+                if (Location == 0) 
+                    TimesAt0++;
+                
+                // Console.WriteLine($"The dial is rotated {direction}{distance} to point at {Location}.");
+            }
+
+            public void RotateCountingAllZeros(char direction, int distance)
+            {
+                (int timesPast0, int singleRotationDist) = Math.DivRem(distance, 100);
+
+                if (Location == 0)
+                {
+                    if (direction == 'R')
+                        Location = singleRotationDist;
+                    else
+                        Location = 100 - singleRotationDist;
+                }
+                else
+                {
+                    if (direction == 'L')
+                    {
+                        Location -= singleRotationDist;
+                        if (Location < 0)
+                        {
+                            Location = Location + 100;
+                            timesPast0++;
+                        }
+                    }
+                    else if (direction == 'R')
+                    {
+                        Location += singleRotationDist;
+                        if (Location == 100) Location = 0;
+                        else if (Location > 100)
+                        {
+                            Location = Location - 100;
+                            timesPast0++;
+                        }
                     }
                 }
 
-                Console.WriteLine($"The dial is rotated {direction}{distance} to point at {CurrentPosition}.");
+                TimesAt0 += timesPast0;
+                if (Location == 0) 
+                    TimesAt0++;
 
-                if (CurrentPosition == 0) TimesAt0++;
+                // Console.WriteLine($"The dial is rotated {direction}{distance} to point at {Location}; during this rotation, it points at zero {timesPast0} times.");
             }
 
         }

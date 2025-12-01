@@ -6,6 +6,9 @@ namespace AoC2025DotNet
     {
         static void Main(string[] args)
         {
+            // Input data should be located in Inputs/DayXX/day_XX.txt relative to the running assembly location
+            // Input data not included per AoC policy
+
             Day01.Solution();
         }
     }
