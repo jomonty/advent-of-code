@@ -1,6 +1,6 @@
 ﻿namespace AoC2025DotNet.SolutionFinding
 {
-    internal class SolutionFactory(IEnumerable<ISolution> solutions) : ISolutionFactory
+    public class SolutionFactory(IEnumerable<ISolution> solutions) : ISolutionFactory
     {
         private readonly IEnumerable<ISolution> _solutions = solutions;
 

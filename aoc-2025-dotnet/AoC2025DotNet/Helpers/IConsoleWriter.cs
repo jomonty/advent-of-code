@@ -1,6 +1,6 @@
 ﻿namespace AoC2025DotNet.Helpers
 {
-    internal interface IConsoleWriter
+    public interface IConsoleWriter
     {
         void WriteDebug(string message);
         void WriteError(string message);

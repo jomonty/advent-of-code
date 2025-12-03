@@ -2,7 +2,7 @@
 
 namespace AoC2025DotNet.SolutionFinding.Solutions
 {
-    internal class Day01(IConsoleWriter consoleWriter) : SolutionBase(consoleWriter)
+    public class Day01(IConsoleWriter consoleWriter) : SolutionBase(consoleWriter)
     {
         public override int Day => 1;
 

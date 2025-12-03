@@ -3,7 +3,7 @@ using AoC2025DotNet.Helpers;
 
 namespace AoC2025DotNet.SolutionFinding
 {
-    internal abstract class SolutionBase(IConsoleWriter consoleWriter) : ISolution
+    public abstract class SolutionBase(IConsoleWriter consoleWriter) : ISolution
     {
         private const string InputFileNameTemplate = "day_{0:D2}.txt";
         private const string SampleInputFileNameTemplate = "day_{0:D2}_sample.txt";
