@@ -1,3 +1,4 @@
 <Solution>
-  <Project Path="AoC2025DotNet.csproj" />
+  <Project Path="AoC2025DotNet.Benchmarks/AoC2025DotNet.Benchmarks.csproj" Id="20be92d8-143a-411d-8f46-723c9e31b526" />
+  <Project Path="AoC2025DotNet/AoC2025DotNet.csproj" />
 </Solution>
