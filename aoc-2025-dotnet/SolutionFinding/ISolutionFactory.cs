@@ -2,6 +2,7 @@
 {
     internal interface ISolutionFactory
     {
+        IEnumerable<ISolution> GetAllSolutions();
         ISolution GetSolution(int day);
     }
 }

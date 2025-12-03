@@ -23,17 +23,17 @@ namespace AoC2025DotNet.SolutionFinding
                 return;
             }
 
-            Writer.WriteInfo($"Solution for day {Day}.");
+            Writer.WriteInfo($"\nSolution for day {Day}:");
 
             if (part == 0 || part == 1)
             {
                 string result = PartOne();
-                Writer.WriteInfo($"Part 1: {result}.");
+                Writer.WriteInfo($"Part 1: {result}");
             }
             if (part == 0 || part == 2)
             {
                 string result = PartTwo();
-                Writer.WriteInfo($"Part 2: {result}.");
+                Writer.WriteInfo($"Part 2: {result}");
             }
         }
 

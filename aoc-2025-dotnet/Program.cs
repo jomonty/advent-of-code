@@ -16,7 +16,7 @@ namespace AoC2025DotNet
 
             Option<int> day = new(name: "--day")
             {
-                DefaultValueFactory = (_) => 1,
+                DefaultValueFactory = (_) => 0,
                 Description = "The day of the solution to run (1-25)"
             };
 
@@ -41,8 +41,27 @@ namespace AoC2025DotNet
                 IHost host = CreateHost(args, parseResult.GetValue(debug));
                 ISolutionFactory slnFactory = host.Services.GetRequiredService<ISolutionFactory>();
 
-                ISolution sln = slnFactory.GetSolution(parseResult.GetValue(day));
-                sln.Solve(parseResult.GetValue(part));
+                int dayValue = parseResult.GetValue(day);
+                int partValue = parseResult.GetValue(part);
+
+                if (!ValidateInput(dayValue, partValue))
+                {
+                    return 1;
+                }
+
+                if (dayValue == 0)
+                {
+                    foreach (ISolution sln in slnFactory.GetAllSolutions().OrderBy(s => s.Day))
+                    {
+                        sln.Solve(partValue);
+                    }
+                }
+                else
+                {
+                    ISolution sln = slnFactory.GetSolution(dayValue);
+                    sln.Solve(partValue);
+                }
+
                 return 0;
             });
 
@@ -83,6 +102,21 @@ namespace AoC2025DotNet
             {
                 services.AddSingleton(typeof(ISolution), type);
             }
+        }
+
+        private static bool ValidateInput(int day, int part)
+        {
+            if (day < 0 || day > 25)
+            {
+                Console.WriteLine("Day must be between 0 and 25.");
+                return false;
+            }
+            if (part < 0 || part > 2)
+            {
+                Console.WriteLine("Part must be between 0 and 2.");
+                return false;
+            }
+            return true;
         }
     }
 }
