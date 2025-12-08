@@ -4,7 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 # Stop AoC Input files from being checked in
-Inputs/*
+**/Inputs/*
 
 # User-specific files
 *.rsuser
