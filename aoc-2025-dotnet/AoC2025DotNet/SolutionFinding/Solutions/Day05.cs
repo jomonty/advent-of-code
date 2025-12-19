@@ -32,7 +32,27 @@ namespace AoC2025DotNet.SolutionFinding.Solutions
 
         protected override string PartTwo()
         {
-            return "Part Two Not Implemented";
+            List<(long start, long end)> ranges = ParseRanges(LoadInput());
+            List<(long start, long end)> mergedRanges = [];
+
+            ranges.Sort((a, b) => a.start.CompareTo(b.start));
+            foreach ((long start, long end) in ranges)
+            {
+                if (mergedRanges.Count == 0 || mergedRanges[^1].end < start - 1)
+                {
+                    mergedRanges.Add((start, end));
+                }
+                else
+                {
+                    (long start, long end) lastRange = mergedRanges[^1];
+                    mergedRanges[^1] = (lastRange.start, Math.Max(lastRange.end, end));
+                }
+            }
+
+            IEnumerable<long> rangeSums = mergedRanges
+                .Select(r => r.end - r.start + 1);
+
+            return rangeSums.Sum().ToString();
         }
 
         private static List<(long start, long end)> ParseRanges(IEnumerable<string> lines)
